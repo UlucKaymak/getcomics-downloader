@@ -1,73 +1,34 @@
 # GetComics Downloader
-
-A CLI tool to search for and download comics from [getcomics.info](https://getcomics.info).
+A TUI-Based CLI tool to search for and download comics from [getcomics.info](https://getcomics.info).
+Made with 🎲 by [UlucKaymak](uluckaymak.com)
 
 ## Features
 
-- **Search:** Find comics by keywords.
-- **Filter:** Filter results by date, issue number range.
-- **Interactive:** Choose which issues to download from the search results.
+- **Interactive UI**: A user-friendly terminal interface for searching and downloading.
+- **Search by Query or Tag**: Find comics by keywords or tags.
+- **Filter Results**: Filter comics by date or issue number range.
+- **Next Page Navigation**: Browse through multiple pages of search results.
+- **Direct and Mediafire Support**: Handles both direct downloads and Mediafire links.
 
 ## Installation
 
-1. Clone the repository.
-2. Install dependencies:
-   ```bash
-   pip install beautifulsoup4==4.12.2 requests==2.28.2 rich==13.3.4
-   ```
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/UlucKaymak/GetComicsDownloader.git
+    cd GetComicsDownloader
+    ```
+2.  **Install dependencies:**
+    ```bash
+    pip install beautifulsoup4==4.12.2 requests==2.28.2 rich==13.3.4
+    ```
 
 ## Usage
 
-```bash
-python main.py "search query" [options]
-```
+You can run the script in two ways:
 
-### Global Usage (macOS/Linux)
+### 1. Command-Line Mode
 
-For easier global access, you can add a function to your shell's configuration file (e.g., `~/.zshrc` or `~/.bashrc`).
-
-1.  **Open your shell configuration file:**
-    ```bash
-    nano ~/.zshrc # or nano ~/.bashrc
-    ```
-
-2.  **Add the following function to the file:**
-
-    ```bash
-    getcomic(){
-        local SCRIPT_PATH="SCRIPT_PATH/getcomics.info/main.py" # IMPORTANT: Update this path to your cloned repository
-
-        if [ -z "$1" ]; then
-            echo "Usage: getcomic \"comic name\""
-            return 1
-        fi
-
-        (cd "$(dirname "$SCRIPT_PATH")" && python3 -W ignore "$(basename "$SCRIPT_PATH")" "$@")
-    }
-    ```
-
-3.  **Save the file and reload your shell configuration:**
-    ```bash
-    source ~/.zshrc # or source ~/.bashrc
-    ```
-
-4.  **You can now use `getcomic` from anywhere:**
-    ```bash
-    getcomic "batman"
-    ```
-
-### Options
-
-- `query`: Search term. Required if `-t` is not used.
-- `-t`, `--tag`: Search by tag.
-- `-date`, `--d`: Filter for comics newer than this date (YYYY-MM-DD).
-- `-output`, `--o`: Download directory (default: current directory).
-- `-min`: Minimum issue number filter.
-- `-max`: Maximum issue number filter.
-- `-results`, `--r`: Number of results to show (default: 15).
-- `-verbose`, `--v`: Enable detailed output.
-
-### Examples
+You can also use command-line arguments to perform a quick search.
 
 **Search for Batman comics:**
 ```bash
@@ -84,13 +45,46 @@ python main.py -t marvel
 python main.py "spider-man" -date 2023-01-01
 ```
 
-**Search for "Invincible" and download to a specific folder:**
-```bash
-python main.py "invincible" -output ~/Comics/Invincible
-```
+### 2. Interactive Mode (Recommended)
 
-**Interactive Mode:**
-After searching, the tool will display a list of found comics.
-- Enter numbers separated by commas to download specific issues (e.g., `1, 3, 5`).
-- Type `a` to download all found comics.
-- Type `q` to quit.
+Run the script without any arguments to launch the interactive user interface:
+```bash
+python main.py
+```
+This will open a menu where you can choose to search by query, tag, or use a detailed search with more options.
+
+## Global Usage (macOS/Linux)
+
+For easier global access, you can add a function to your shell's configuration file (e.g., `~/.zshrc` or `~/.bashrc`).
+
+1.  **Open your shell configuration file:**
+    ```bash
+    nano ~/.zshrc # or nano ~/.bashrc
+    ```
+2.  **Add the following function to the file.** Make sure to replace `"path/to/your/cloned/repo/main.py"` with the actual path to the `main.py` file in your system.
+    ```bash
+    getcomic(){
+        python3 -W ignore "path/to/your/cloned/repo/main.py" "$@"
+    }
+    ```
+3.  **Save the file and reload your shell configuration:**
+    ```bash
+    source ~/.zshrc # or source ~/.bashrc
+    ```
+4.  **You can now use `getcomic` from anywhere:**
+    ```bash
+    getcomic "batman"
+    ```
+
+## Command-Line Options
+
+| Option                | Short | Description                                      |
+| --------------------- | ----- | ------------------------------------------------ |
+| `query`               |       | Search term. Required if `-t` is not used.     |
+| `--tag`               | `-t`  | Search by tag.                                   |
+| `--date`              | `-d`  | Filter for comics newer than this date (YYYY-MM-DD). |
+| `--output`            | `-o`  | Download directory (default: `Downloaded Comics`).|
+| `--min`               |       | Minimum issue number filter.                     |
+| `--max`               |       | Maximum issue number filter.                     |
+| `--results`           | `-r`  | Number of results to show (default: 15).         |
+| `--verbose`           | `-v`  | Enable detailed output.                          |
