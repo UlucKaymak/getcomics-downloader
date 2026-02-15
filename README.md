@@ -58,7 +58,8 @@ For easier global access, you can add a function to your shell's configuration f
 
 ### Options
 
-- `query`: Search term (Required).
+- `query`: Search term. Required if `-t` is not used.
+- `-t`, `--tag`: Search by tag.
 - `-date`, `--d`: Filter for comics newer than this date (YYYY-MM-DD).
 - `-output`, `--o`: Download directory (default: current directory).
 - `-min`: Minimum issue number filter.
@@ -71,6 +72,11 @@ For easier global access, you can add a function to your shell's configuration f
 **Search for Batman comics:**
 ```bash
 python main.py "batman"
+```
+
+**Search for comics with the "marvel" tag:**
+```bash
+python main.py -t marvel
 ```
 
 **Search for Spider-Man comics released after 2023-01-01:**

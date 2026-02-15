@@ -27,25 +27,30 @@ class Query:
     """
     Object to take a user's search string and provide an interface to getcomics.info results 
     """
-    def __init__(self, query: str, results: str, verbose: bool, download_path: Path):
+    def __init__(self, query: str, results: str, verbose: bool, download_path: Path, tag: str = None):
         self.query = query
+        self.tag = tag
         self.num_results_desired = results
         self.verbose = verbose
         self.download_path = download_path
         self.page_links = {}  # pages hosting comics, dict[str, str]: url, title
         self.comic_links = {} # actual links to comics, dict[str, str]: url, title
 
-    def find_pages(self, date=None):
+    def find_pages(self, date=None, tag=None):
         """
-        Uses the search query to find pages that can later be parsed for download links.
+        Uses the search query or tag to find pages that can later be parsed for download links.
 
         date (None | datetime): date to look for in search results, or newer
+        tag (None | str): tag to search for
         """
         # treat 0 as infinite desired results
         page = 0
         while self.num_results_desired == 0 or len(self.page_links) < self.num_results_desired:
             page += 1
-            url = f"{BASE_URL}/page/{page}?s={quote_plus(self.query)}"
+            if self.tag:
+                url = f"{BASE_URL}/tag/{self.tag}/page/{page}"
+            else:
+                url = f"{BASE_URL}/page/{page}?s={quote_plus(self.query)}"
             try:
                 if self.verbose: console.print(f"Opening page {url}")
                 response = requests.get(url)
@@ -104,7 +109,7 @@ class Query:
 
                     # Keywords to catch download links
                     if "DOWNLOAD NOW" in link_text or "DOWNLOAD NOW" in link_title or "MAIN SERVER" in link_text:
-                        if "getcomics.info/download" in href or "getcomics.org/download" in href:
+                        if "getcomics.info/download" in href or "getcomics.org/download" in href or "getcomics.org/dlds/" in href:
                             self.comic_links[href] = title
                             found_on_page = True
                     
@@ -122,7 +127,8 @@ class Query:
         """        
         for i, (url, title) in enumerate(self.comic_links.items()):
             if url.startswith("_MEDIAFIRE_"):
-                console.print(f"{title}:\nPlease download from the following Mediafire link:\n{url[url.index('http'):]}")
+                mediafire_url = url[url.index('http'):]
+                console.print(f"{title}:\\nPlease download from the following Mediafire link:\\n[link={mediafire_url}]{mediafire_url}[/link]")
                 continue
             
             if self.verbose: console.print(f"Downloading {title} from {url}")
@@ -237,7 +243,8 @@ def parse_arguments():
     parser = argparse.ArgumentParser(
         description="Search for and/or download content from getcomics.info."
     )
-    parser.add_argument("query", type=str, help="Search term for comics")
+    parser.add_argument("query", type=str, nargs='?', default=None, help="Search term for comics")
+    parser.add_argument("-t", "--tag", dest="tag", type=str, default=None, help="Search by tag")
     parser.add_argument("-date", "--d", dest='date', type=str, default=None, help="Get newer ones (YYYY-MM-DD)")
     parser.add_argument("-output", "--o", dest="download_path", type=str, default="./", help='Download directory')
     parser.add_argument("-min", dest="min", type=int, default=None, help="Minimum issue number")
@@ -247,6 +254,12 @@ def parse_arguments():
 
     args = parser.parse_args()
     args.download_path = Path(args.download_path).expanduser()
+
+    if not args.query and not args.tag:
+        parser.error("You must provide a search query or a tag.")
+    
+    if args.query and args.tag:
+        parser.error("You can only provide a search query or a tag, not both.")
     
     if args.date:
         # Simple date check
@@ -309,12 +322,15 @@ def main():
         args.download_path.mkdir(parents=True, exist_ok=True)
 
     try:
-        # Adjust search query based on min/max parameters
-        search_query = args.query
-        if args.min is not None:
-            search_query = f"{args.query} {args.min}"
+        if args.tag:
+            search_query = args.tag
+        else:
+            # Adjust search query based on min/max parameters
+            search_query = args.query
+            if args.min is not None:
+                search_query = f"{args.query} {args.min}"
         
-        query = Query(search_query, args.results, args.verbose, args.download_path)
+        query = Query(search_query, args.results, args.verbose, args.download_path, tag=args.tag)
         
         with console.status(f"[bold green]Scanning GetComics: {search_query}..."):
             query.find_pages(date=args.date)
