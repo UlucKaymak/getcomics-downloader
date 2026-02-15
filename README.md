@@ -1,6 +1,5 @@
 # GetComics Downloader
 A TUI-Based CLI tool to search for and download comics from [getcomics.info](https://getcomics.info).
-Made with 🎲 by [UlucKaymak](uluckaymak.com)
 
 ## Features
 
@@ -88,3 +87,6 @@ For easier global access, you can add a function to your shell's configuration f
 | `--max`               |       | Maximum issue number filter.                     |
 | `--results`           | `-r`  | Number of results to show (default: 15).         |
 | `--verbose`           | `-v`  | Enable detailed output.                          |
+
+
+Made with 🎲 by [UlucKaymak](uluckaymak.com)
