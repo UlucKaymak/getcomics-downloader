@@ -13,7 +13,7 @@ A CLI tool to search for and download comics from [getcomics.info](https://getco
 1. Clone the repository.
 2. Install dependencies:
    ```bash
-   pip install -r requirements.txt
+   pip install beautifulsoup4==4.12.2 requests==2.28.2 rich==13.3.4
    ```
 
 ## Usage
@@ -35,7 +35,7 @@ For easier global access, you can add a function to your shell's configuration f
 
     ```bash
     getcomic(){
-        local SCRIPT_PATH="/Users/uluckaymak/Projects/Codebase/getcomics.info/main.py" # IMPORTANT: Update this path to your cloned repository
+        local SCRIPT_PATH="SCRIPT_PATH/getcomics.info/main.py" # IMPORTANT: Update this path to your cloned repository
 
         if [ -z "$1" ]; then
             echo "Usage: getcomic \"comic name\""
