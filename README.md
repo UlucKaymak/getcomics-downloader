@@ -89,4 +89,5 @@ For easier global access, you can add a function to your shell's configuration f
 | `--verbose`           | `-v`  | Enable detailed output.                          |
 
 
+---
 Made with 🎲 by [UlucKaymak](uluckaymak.com)
