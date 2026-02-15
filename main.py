@@ -95,30 +95,30 @@ class Query:
 
                 soup = BeautifulSoup(response.text, "html.parser")
                 
-                # 1. New Button Structure: The site now usually uses 'aio-redirection' class
-                # or hides 'DOWNLOAD NOW' text with different tags.
-                
-                # Let's do a broader search:
                 all_links = soup.find_all("a", href=True)
-                found_on_page = False
-
+                
+                # Prioritize direct links
+                direct_links_found = False
                 for tag in all_links:
                     href = tag['href']
                     link_text = tag.get_text().upper()
                     link_title = tag.get('title', '').upper()
 
-                    # Keywords to catch download links
                     if "DOWNLOAD NOW" in link_text or "DOWNLOAD NOW" in link_title or "MAIN SERVER" in link_text:
                         if "getcomics.info/download" in href or "getcomics.org/download" in href or "getcomics.org/dlds/" in href:
                             self.comic_links[href] = title
-                            found_on_page = True
-                    
-                    # Catch Mediafire alternative
-                    elif "MEDIAFIRE" in link_text or "MEDIAFIRE" in link_title:
-                        self.comic_links[f"_MEDIAFIRE_{href}"] = title
-                        found_on_page = True
+                            direct_links_found = True
 
-                if not found_on_page and self.verbose:
+                # If no direct links found, add Mediafire links
+                if not direct_links_found:
+                    for tag in all_links:
+                        href = tag['href']
+                        link_text = tag.get_text().upper()
+                        link_title = tag.get('title', '').upper()
+                        if "MEDIAFIRE" in link_text or "MEDIAFIRE" in link_title:
+                            self.comic_links[f"_MEDIAFIRE_{href}"] = title
+
+                if not self.comic_links and self.verbose:
                     console.print(f"No link found: {url}")
 
     def download_comics(self, prompt=True):
@@ -192,7 +192,7 @@ class Query:
                     # set up the progress bar so it has the best chance to be displayed nicely, allowing for terminal resizing
                     columns_width = 60 # generally, the Text/TimeRemaining/Bar/Download/TransferSpeed Columns take up this much room
                     terminal_width = shutil.get_terminal_size().columns
-                    max_length = max(terminal_width - columns_width, 10)
+                    max_length = max(terminal_width - columns_width, 15)
                     file_name_divided = "\n".join(textwrap.wrap(destination.name, width=max_length))
 
                     file.write(chunk)
