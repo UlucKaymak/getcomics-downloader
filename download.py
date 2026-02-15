@@ -61,13 +61,13 @@ def download_file(url, filename=None, chunk_size=1024, verbose=False, transient=
             "•",
             TransferSpeedColumn(),
             disable=not verbose,
-            transient=transient
+            transient=False
         )
         with progress:
             task_id = progress.add_task(
                 description=destination.name,
                 total=total_size_in_bytes,
-                visible=not verbose
+                visible=verbose
             )
             for chunk in response.iter_content(chunk_size=chunk_size):
                 max_length = max(console.width - 40, 15) 

@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from rich.console import Console
 
-BASE_URL = "https://getcomics.info"
+BASE_URL = "https://getcomics.org"
 
 console = Console()
 
@@ -66,7 +66,7 @@ class GetComics:
                 link_text = tag.get_text().upper()
                 link_title = tag.get('title', '').upper()
                 if "DOWNLOAD NOW" in link_text or "DOWNLOAD NOW" in link_title or "MAIN SERVER" in link_text:
-                    if "getcomics.info/download" in href or "getcomics.org/download" in href or "getcomics.org/dlds/" in href:
+                    if "getcomics.org/download" in href or "getcomics.org/dlds/" in href:
                         self.comic_links[href] = title
                         direct_links_found = True
             if not direct_links_found:

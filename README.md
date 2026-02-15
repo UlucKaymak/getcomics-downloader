@@ -2,7 +2,6 @@
 A TUI-Based CLI tool to search for and download comics from [getcomics.info](https://getcomics.info).
 
 ## Features
-
 - **Interactive UI**: A user-friendly terminal interface for searching and downloading.
 - **Search by Query or Tag**: Find comics by keywords or tags.
 - **Filter Results**: Filter comics by date or issue number range.
@@ -10,7 +9,6 @@ A TUI-Based CLI tool to search for and download comics from [getcomics.info](htt
 - **Direct and Mediafire Support**: Handles both direct downloads and Mediafire links.
 
 ## Installation
-
 1.  **Clone the repository:**
     ```bash
     git clone https://github.com/UlucKaymak/GetComicsDownloader.git
@@ -22,11 +20,9 @@ A TUI-Based CLI tool to search for and download comics from [getcomics.info](htt
     ```
 
 ## Usage
-
 You can run the script in two ways:
 
 ### 1. Command-Line Mode
-
 You can also use command-line arguments to perform a quick search.
 
 **Search for Batman comics:**
@@ -39,13 +35,26 @@ python main.py "batman"
 python main.py -t marvel
 ```
 
-**Search for Spider-Man comics released after 2023-01-01:**
+**Search for Spider-Man comics released after 2023:**
 ```bash
-python main.py "spider-man" -date 2023-01-01
+python main.py "spider-man" -date 2023
 ```
 
-### 2. Interactive Mode (Recommended)
+### Command-Line Options
 
+| Option                | Short | Description                                      |
+| --------------------- | ----- | ------------------------------------------------ |
+| `query`               |       | Search term. Required if `-t` is not used.     |
+| `--tag`               | `-t`  | Search by tag.                                   |
+| `--date`              | `-d`  | Filter for comics newer than this date (YYYY-MM-DD). |
+| `--output`            | `-o`  | Download directory (default: `Downloaded Comics`).|
+| `--min`               |       | Minimum issue number filter.                     |
+| `--max`               |       | Maximum issue number filter.                     |
+| `--results`           | `-r`  | Number of results to show (default: 15).         |
+| `--verbose`           | `-v`  | Enable detailed output.                          |
+
+
+### 2. Interactive Mode (Recommended)
 Run the script without any arguments to launch the interactive user interface:
 ```bash
 python main.py
@@ -53,7 +62,6 @@ python main.py
 This will open a menu where you can choose to search by query, tag, or use a detailed search with more options.
 
 ## Global Usage (macOS/Linux)
-
 For easier global access, you can add a function to your shell's configuration file (e.g., `~/.zshrc` or `~/.bashrc`).
 
 1.  **Open your shell configuration file:**
@@ -74,19 +82,6 @@ For easier global access, you can add a function to your shell's configuration f
     ```bash
     getcomic "batman"
     ```
-
-## Command-Line Options
-
-| Option                | Short | Description                                      |
-| --------------------- | ----- | ------------------------------------------------ |
-| `query`               |       | Search term. Required if `-t` is not used.     |
-| `--tag`               | `-t`  | Search by tag.                                   |
-| `--date`              | `-d`  | Filter for comics newer than this date (YYYY-MM-DD). |
-| `--output`            | `-o`  | Download directory (default: `Downloaded Comics`).|
-| `--min`               |       | Minimum issue number filter.                     |
-| `--max`               |       | Maximum issue number filter.                     |
-| `--results`           | `-r`  | Number of results to show (default: 15).         |
-| `--verbose`           | `-v`  | Enable detailed output.                          |
 
 
 ---

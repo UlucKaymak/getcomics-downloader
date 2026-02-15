@@ -15,11 +15,11 @@ def parse_arguments():
         return None  # No arguments provided, trigger interactive menu
 
     parser = argparse.ArgumentParser(
-        description="Search for and/or download content from getcomics.info."
+        description="Search for and/or download content from getcomics.org."
     )
     parser.add_argument("query", type=str, nargs='?', default=None, help="Search term for comics")
     parser.add_argument("-t", "--tag", dest="tag", type=str, default=None, help="Search by tag")
-    parser.add_argument("-date", "--d", dest='date', type=str, default=None, help="Get newer ones (YYYY-MM-DD)")
+    parser.add_argument("-date", "--d", dest='date', type=str, default=None, help="Get newer ones (YYYY)")
     parser.add_argument("-output", "--o", dest="download_path", type=str, default="./Downloaded Comics", help='Download directory')
     parser.add_argument("-min", dest="min", type=int, default=None, help="Minimum issue number")
     parser.add_argument("-max", dest="max", type=int, default=None, help="Maximum issue number")
@@ -34,9 +34,9 @@ def parse_arguments():
     
     if args.date:
         try:
-            args.date = datetime.strptime(args.date.replace("/", "-").replace(".", "-"), "%Y-%m-%d")
+            args.date = datetime.strptime(args.date, "%Y").year
         except:
-            console.print("[yellow]Warning: Date format should be YYYY-MM-DD. Date filter disabled.[/yellow]")
+            console.print("[yellow]Warning: Date format should be YYYY. Date filter disabled.[/yellow]")
             args.date = None
 
     return args
@@ -115,7 +115,7 @@ def interactive_main_menu():
     [bold]Current Options:[/bold]""")
             console.print(f"  [cyan]1. Search Query:[/cyan] {args.query or 'Not set'}")
             console.print(f"  [cyan]2. Search Tag:[/cyan] {args.tag or 'Not set'}")
-            console.print(f"  [cyan]3. Date (YYYY-MM-DD):[/cyan] {args.date or 'Not set'}")
+            console.print(f"  [cyan]3. Date (YYYY):[/cyan] {args.date or 'Not set'}")
             console.print(f"  [cyan]4. Download Path:[/cyan] {args.download_path}")
             console.print(f"  [cyan]5. Min Issue:[/cyan] {args.min or 'Not set'}")
             console.print(f"  [cyan]6. Max Issue:[/cyan] {args.max or 'Not set'}")
@@ -140,11 +140,11 @@ def interactive_main_menu():
                 args.tag = Prompt.ask("Enter tag", default=args.tag)
                 args.query = None
             elif choice == '3':
-                date_str = Prompt.ask("Enter date (YYYY-MM-DD)", default=str(args.date) if args.date else "")
+                date_str = Prompt.ask("Enter date (YYYY)", default=str(args.date) if args.date else "")
                 try:
-                    args.date = datetime.strptime(date_str.replace("/", "-").replace(".", "-"), "%Y-%m-%d")
+                    args.date = datetime.strptime(date_str, "%Y").year
                 except:
-                    console.print("[yellow]Warning: Date format should be YYYY-MM-DD. Date filter disabled.[/yellow]")
+                    console.print("[yellow]Warning: Date format should be YYYY. Date filter disabled.[/yellow]")
                     args.date = None
             elif choice == '4':
                 args.download_path = Path(Prompt.ask("Enter download path", default=str(args.download_path))).expanduser()
