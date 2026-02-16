@@ -85,6 +85,10 @@ For easier global access, you can add a function to your shell's configuration f
     ```bash
     getcomic "batman"
     ```
+    It supports command-line options too!
+    ```bash
+    getcomic "batman" --aria2c
+    ```
 
 ---
 Made with 🎲 by [UlucKaymak](uluckaymak.com)
