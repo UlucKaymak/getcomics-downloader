@@ -63,7 +63,7 @@ python main.py
 ```
 This will open a menu where you can choose to search by query or use a detailed search with more options.
 
-## Global Usage (macOS/Linux)
+### Global Usage (macOS/Linux)
 For easier global access, you can add a function to your shell's configuration file (e.g., `~/.zshrc` or `~/.bashrc`).
 
 1.  **Open your shell configuration file:**
