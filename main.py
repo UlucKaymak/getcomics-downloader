@@ -70,8 +70,9 @@ def main():
                     console.print("[yellow]Exiting. Bye![/yellow]")
                     return
 
-                download_comics(dict(selected_comics), args.download_path, args.verbose, prompt=False)
-                # break
+                download_comics(dict(selected_comics), args.download_path, args.verbose, prompt=False, use_aria2c=args.use_aria2c)
+                Prompt.ask("Press any key to return to the main menu")
+                break
 
         except KeyboardInterrupt:
             console.print("\n[bold red]Operation cancelled by user.[/bold red]")

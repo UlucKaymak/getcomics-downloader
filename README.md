@@ -6,14 +6,14 @@ A TUI-Based CLI tool to search for and download comics from [getcomics.info](htt
 - **Search by Query**: Find comics by keywords.
 - **Filter Results**: Filter comics by date or issue number range.
 - **Next Page Navigation**: Browse through multiple pages of search results.
-- **Direct and Mediafire Support**: Handles both direct downloads and Mediafire links (for aria2c).
+- **Direct and Mediafire Support**: Handles both direct downloads and Mediafire (external) links.
+- **Aria2c Integration**: Support for `aria2c` for more efficient downloading, including segmented downloads and better error handling.
 
 ## Planned Features
--   **Enhanced Search Filters**: Implement more advanced filtering options beyond just date and issue number (e.g., publisher, series status).
--   **Download Manager**: A dedicated section to view, pause, resume, or cancel active downloads.
--   **Aria2c Integration**: Support for `aria2c` for more efficient downloading, including segmented downloads and better error handling.
--   **Other Sources**: Extend website options to search and download from other comic/manga websites.
--   **Random Comic Recommendation**: Introduce a feature to recommend random comics for discovery.
+- **Enhanced Search Filters**: Implement more advanced filtering options beyond just date and issue number (e.g., publisher, series status).
+- **Download Manager**: A dedicated section to view, pause, resume, or cancel active downloads.
+- **Other Sources**: Extend website options to search and download from other comic/manga websites.
+- **Random Comic Recommendation**: Introduce a feature to recommend random comics for discovery.
 
 
 # Installation
@@ -54,6 +54,7 @@ python main.py "spiderman" -date 2023
 | `--max`               |       | Maximum issue number filter.                     |
 | `--results`           | `-r`  | Number of results to show (default: 15).         |
 | `--verbose`           | `-v`  | Enable detailed log output.                      |
+| `--aria2c`            | `-a`  | Use aria2c for downloads.                      |
 
 
 ## 2. Interactive Mode (Recommended)

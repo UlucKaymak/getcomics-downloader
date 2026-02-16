@@ -3,7 +3,8 @@
     "date": null,
     "download_path": "Downloads/Comics",
     "min": null,
-    "max": null,
+    "max": 1,
     "results": 15,
-    "verbose": false
+    "verbose": false,
+    "use_aria2c": false
 }
