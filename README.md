@@ -47,7 +47,7 @@ python main.py "spiderman" -date 2023
 
 | Option                | Short | Description                                      |
 | --------------------- | ----- | ------------------------------------------------ |
-| `query`               |       | Search term. Required if `-t` is not used.     |
+| `query`               |       | Search term.     |
 | `--date`              | `-d`  | Filter for comics newer than this date (YYYY). |
 | `--output`            | `-o`  | Download directory (default: `Downloads/Comics`).|
 | `--min`               |       | Minimum issue number filter.                     |
