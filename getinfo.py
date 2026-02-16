@@ -7,9 +7,9 @@ BASE_URL = "https://getcomics.org"
 console = Console()
 
 class GetComics:
-    def __init__(self, query: str, results: str, verbose: bool, tag: str = None):
+    def __init__(self, query: str, results: str, verbose: bool):
         self.query = query
-        self.tag = tag
+        # self.tag = tag
         self.num_results_desired = results
         self.verbose = verbose
         self.page = 1
@@ -17,10 +17,7 @@ class GetComics:
         self.comic_links = {}
 
     def find_pages(self, date=None):
-        if self.tag:
-            url = f"{BASE_URL}/tag/{self.tag}/page/{self.page}"
-        else:
-            url = f"{BASE_URL}/page/{self.page}?s={self.query}"
+        url = f"{BASE_URL}/page/{self.page}?s={self.query}"
         
         try:
             if self.verbose:

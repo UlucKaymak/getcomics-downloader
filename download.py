@@ -50,31 +50,35 @@ def download_file(url, filename=None, chunk_size=1024, verbose=False, transient=
     temp_file = Path(tempfile.gettempdir()) / filename.name
     
     total_size_in_bytes = int(response.headers.get('content-length', 0))
+    
+    if verbose:
+        console.print(f"[bold cyan]{destination.name}[/bold cyan]")
+
     with open(temp_file, "wb") as file:
         progress = Progress(
-            TextColumn("[progress.description]{task.description}"),
-            TimeRemainingColumn(compact=True),
-            BarColumn(bar_width=20),
+            BarColumn(bar_width=None), 
             "[progress.percentage]{task.percentage:>3.1f}%",
             "•",
             DownloadColumn(binary_units=True),
             "•",
             TransferSpeedColumn(),
+            "•",
+            TimeRemainingColumn(compact=True),
             disable=not verbose,
-            transient=False
+            transient=transient
         )
+        
         with progress:
             task_id = progress.add_task(
-                description=destination.name,
+                description="", 
                 total=total_size_in_bytes,
                 visible=verbose
             )
+            
             for chunk in response.iter_content(chunk_size=chunk_size):
-                max_length = max(console.width - 40, 15) 
-                file_name_divided = "\\n".join(textwrap.wrap(destination.name, width=max_length))
-
                 file.write(chunk)
-                progress.update(task_id, description=file_name_divided, advance=chunk_size)
+                progress.update(task_id, advance=len(chunk))
+                
     temp_file.replace(destination)
 
 def safe_filename(filename: str) -> str:

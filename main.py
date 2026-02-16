@@ -15,16 +15,14 @@ def main():
     while True:
         try:
             console.clear()
-            
-            # ASCII Art Title
             console.print()
             console.print("=" * 70)
             console.print("""[bold purple]
-     ____      _    ____                _                   
-    / ___| ___| |_ / ___|___  _ __ ___ (_) ___ ___          
+      ____      _    ____                _                   
+     / ___| ___| |_ / ___|___  _ __ ___ (_) ___ ___          
     | |  _ / _ \ __| |   / _ \| '_ ` _ \| |/ __/ __|         
     | |_| |  __/ |_| |__| (_) | | | | | | | (__\__ \         
-    \____|\___|\__|\____\___/|_| |_| |_|_|\___|___/         
+     \____|\___|\__|\____\___/|_| |_| |_|_|\___|___/         
     |  _ \  _____      ___ __ | | ___   __ _  __| | ___ _ __ 
     | | | |/ _ \ \ /\ / / '_ \| |/ _ \ / _` |/ _` |/ _ \ '__|
     | |_| | (_) \ V  V /| | | | | (_) | (_| | (_| |  __/ |   
@@ -42,18 +40,14 @@ def main():
                     console.print("[yellow]Exiting.[/yellow]")
                     return
             
-            # Directory check
             if not args.download_path.exists():
                 args.download_path.mkdir(parents=True, exist_ok=True)
 
-            if args.tag:
-                search_query = args.tag
-            else:
-                search_query = args.query
-                if args.min is not None:
-                    search_query = f"{args.query} {args.min}"
+            search_query = args.query
+            if args.min is not None:
+                search_query = f"{args.query} {args.min}"
             
-            comics = GetComics(search_query, args.results, args.verbose, tag=args.tag)
+            comics = GetComics(search_query, args.results, args.verbose)
             
             while True:
                 with console.status(f"[bold green]Scanning GetComics: {search_query} (Page {comics.page})..."):
@@ -73,11 +67,11 @@ def main():
                     continue
                 
                 if not selected_comics:
-                    console.print("[yellow]Exiting without downloading.[/yellow]")
+                    console.print("[yellow]Exiting. Bye![/yellow]")
                     return
 
                 download_comics(dict(selected_comics), args.download_path, args.verbose, prompt=False)
-                break
+                # break
 
         except KeyboardInterrupt:
             console.print("\n[bold red]Operation cancelled by user.[/bold red]")
